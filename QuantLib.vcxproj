@@ -136,6 +136,38 @@
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">QuantLib-mt</TargetName>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">QuantLib-x64-mt</TargetName>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug (static runtime)|Win32'">
+    <IncludePath>C:\Program Files\Boost\boost_1_84_0;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Program Files\Boost\boost_1_84_0\lib64-msvc-14.3;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IncludePath>C:\Program Files\Boost\boost_1_84_0;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Program Files\Boost\boost_1_84_0\lib64-msvc-14.3;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release (static runtime)|Win32'">
+    <IncludePath>C:\Program Files\Boost\boost_1_84_0;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Program Files\Boost\boost_1_84_0\lib64-msvc-14.3;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <IncludePath>C:\Program Files\Boost\boost_1_84_0;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Program Files\Boost\boost_1_84_0\lib64-msvc-14.3;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug (static runtime)|x64'">
+    <IncludePath>C:\Program Files\Boost\boost_1_84_0;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Program Files\Boost\boost_1_84_0\lib64-msvc-14.3;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IncludePath>C:\Program Files\Boost\boost_1_84_0;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Program Files\Boost\boost_1_84_0\lib64-msvc-14.3;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release (static runtime)|x64'">
+    <IncludePath>C:\Program Files\Boost\boost_1_84_0;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Program Files\Boost\boost_1_84_0\lib64-msvc-14.3;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IncludePath>C:\Program Files\Boost\boost_1_84_0;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Program Files\Boost\boost_1_84_0\lib64-msvc-14.3;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
@@ -1838,10 +1870,12 @@
     <ClInclude Include="ql\time\daycounters\actualactual.hpp" />
     <ClInclude Include="ql\time\daycounters\all.hpp" />
     <ClInclude Include="ql\time\daycounters\business252.hpp" />
+    <ClInclude Include="ql\time\daycounters\customdaycounter.hpp" />
     <ClInclude Include="ql\time\daycounters\one.hpp" />
     <ClInclude Include="ql\time\daycounters\simpledaycounter.hpp" />
     <ClInclude Include="ql\time\daycounters\thirty360.hpp" />
     <ClInclude Include="ql\time\daycounters\thirty365.hpp" />
+    <ClInclude Include="ql\time\daycounters\voltime.hpp" />
     <ClInclude Include="ql\time\daycounters\yearfractiontodate.hpp" />
     <ClInclude Include="ql\time\ecb.hpp" />
     <ClInclude Include="ql\time\frequency.hpp" />
@@ -2806,9 +2840,11 @@
     <ClCompile Include="ql\time\daycounters\actual365fixed.cpp" />
     <ClCompile Include="ql\time\daycounters\actualactual.cpp" />
     <ClCompile Include="ql\time\daycounters\business252.cpp" />
+    <ClCompile Include="ql\time\daycounters\customdaycounter.cpp" />
     <ClCompile Include="ql\time\daycounters\simpledaycounter.cpp" />
     <ClCompile Include="ql\time\daycounters\thirty360.cpp" />
     <ClCompile Include="ql\time\daycounters\thirty365.cpp" />
+    <ClCompile Include="ql\time\daycounters\voltime.cpp" />
     <ClCompile Include="ql\time\daycounters\yearfractiontodate.cpp" />
     <ClCompile Include="ql\time\ecb.cpp" />
     <ClCompile Include="ql\time\frequency.cpp" />

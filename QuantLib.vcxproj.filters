@@ -4473,6 +4473,12 @@
     <ClInclude Include="ql\indexes\ibor\swestr.hpp">
       <Filter>indexes\ibor</Filter>
     </ClInclude>
+    <ClInclude Include="ql\time\daycounters\customdaycounter.hpp">
+      <Filter>time\daycounters</Filter>
+    </ClInclude>
+    <ClInclude Include="ql\time\daycounters\voltime.hpp">
+      <Filter>time\daycounters</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ql\methods\montecarlo\brownianbridge.cpp">
@@ -7226,6 +7232,12 @@
       <Filter>cashflows</Filter>
     </ClCompile>
     <ClCompile Include="ql\time\daycounters\yearfractiontodate.cpp">
+      <Filter>time\daycounters</Filter>
+    </ClCompile>
+    <ClCompile Include="ql\time\daycounters\customdaycounter.cpp">
+      <Filter>time\daycounters</Filter>
+    </ClCompile>
+    <ClCompile Include="ql\time\daycounters\voltime.cpp">
       <Filter>time\daycounters</Filter>
     </ClCompile>
   </ItemGroup>
