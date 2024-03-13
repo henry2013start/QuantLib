@@ -8,9 +8,13 @@
 #include <ql/time/daycounters/actual366.hpp>
 #include <ql/time/daycounters/actualactual.hpp>
 #include <ql/time/daycounters/business252.hpp>
+/* customdaycounter.hpp is added manually*/
+#include <ql/time/daycounters/customdaycounter.hpp>
 #include <ql/time/daycounters/one.hpp>
 #include <ql/time/daycounters/simpledaycounter.hpp>
 #include <ql/time/daycounters/thirty360.hpp>
 #include <ql/time/daycounters/thirty365.hpp>
+/* voltime.hpp is added manually*/
+#include <ql/time/daycounters/voltime.hpp>
 #include <ql/time/daycounters/yearfractiontodate.hpp>
 
