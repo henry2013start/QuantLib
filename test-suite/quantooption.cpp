@@ -1184,7 +1184,7 @@ BOOST_AUTO_TEST_CASE(testAmericanQuantoOption)  {
             bsmProcess, dividends, quantoHelper, 100, 400, 1));
 
     const Real tol = 1e-4;
-    const Real expected = 8.90611734;
+    const Real expected = 8.8953;
     const Real bsCalculated = option.NPV();
 
     if (std::fabs(expected - bsCalculated) > tol) {

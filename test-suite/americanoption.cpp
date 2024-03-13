@@ -808,7 +808,7 @@ BOOST_AUTO_TEST_CASE(testEscrowedVsSpotAmericanOption) {
    );
 
    option.setPricingEngine(
-       ext::make_shared<FdBlackScholesVanillaEngine>(process, dividends, 100, 400));
+       ext::make_shared<FdBlackScholesVanillaEngine>(process, dividends, 200, 400));
 
    const Real spotNpv = option.NPV();
    const Real spotDelta = option.delta();
