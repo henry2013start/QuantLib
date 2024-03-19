@@ -68,13 +68,24 @@ namespace QuantLib {
              Volatility maxVol = 4.0) const;
 
         Volatility impliedVolatility(
-             Real price,
-             const ext::shared_ptr<GeneralizedBlackScholesProcess>& process,
-             const DividendSchedule& dividends,
-             Real accuracy = 1.0e-4,
-             Size maxEvaluations = 100,
-             Volatility minVol = 1.0e-7,
-             Volatility maxVol = 4.0) const;
+            Real price,
+            const ext::shared_ptr<GeneralizedBlackScholesProcess>& process,
+            const DividendSchedule& dividends,
+            Real accuracy = 1.0e-4,
+            Size maxEvaluations = 100,
+            Volatility minVol = 1.0e-7,
+            Volatility maxVol = 4.0) const;
+
+        Volatility impliedVolatility(
+            Real price,
+            const ext::shared_ptr<GeneralizedBlackScholesProcess>& process,
+            const DividendSchedule& dividends,
+            Size tGrid,
+            Size xGrid,
+            Real accuracy = 1.0e-4,
+            Size maxEvaluations = 100,
+            Volatility minVol = 1.0e-7,
+            Volatility maxVol = 4.0) const;
         //@}
 
         void setupArguments(PricingEngine::arguments*) const override;

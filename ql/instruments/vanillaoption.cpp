@@ -47,13 +47,27 @@ namespace QuantLib {
     }
 
     Volatility VanillaOption::impliedVolatility(
-             Real targetValue,
-             const ext::shared_ptr<GeneralizedBlackScholesProcess>& process,
-             const DividendSchedule& dividends,
-             Real accuracy,
-             Size maxEvaluations,
-             Volatility minVol,
-             Volatility maxVol) const {
+        Real targetValue,
+        const ext::shared_ptr<GeneralizedBlackScholesProcess>& process,
+        const DividendSchedule& dividends,
+        Real accuracy,
+        Size maxEvaluations,
+        Volatility minVol,
+        Volatility maxVol) const {
+        return impliedVolatility(targetValue, process, dividends, 100, 100, 
+                                 accuracy, maxEvaluations, minVol, maxVol);
+    }
+
+    Volatility VanillaOption::impliedVolatility(
+            Real targetValue,
+            const ext::shared_ptr<GeneralizedBlackScholesProcess>& process,
+            const DividendSchedule& dividends,
+            Size tGrid,
+            Size xGrid,
+            Real accuracy,
+            Size maxEvaluations,
+            Volatility minVol,
+            Volatility maxVol) const {
 
         QL_REQUIRE(!isExpired(), "option expired");
 
@@ -74,9 +88,9 @@ namespace QuantLib {
           case Exercise::American:
           case Exercise::Bermudan:
             if (dividends.empty())
-                engine = std::make_unique<FdBlackScholesVanillaEngine>(newProcess);
+                engine = std::make_unique<FdBlackScholesVanillaEngine>(newProcess, tGrid, xGrid);
             else
-                engine = std::make_unique<FdBlackScholesVanillaEngine>(newProcess, dividends);
+                engine = std::make_unique<FdBlackScholesVanillaEngine>(newProcess, dividends, tGrid, xGrid);
             break;
           default:
             QL_FAIL("unknown exercise type");
