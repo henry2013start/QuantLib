@@ -36,6 +36,8 @@ namespace QuantLib {
         for (auto exerciseDate : exerciseDates) {
             exerciseTimes_.push_back(dayCounter.yearFraction(referenceDate, exerciseDate));
         }
+
+        std::sort(exerciseTimes_.begin(), exerciseTimes_.end());
     }
 
     const std::vector<Time>& FdmBermudanStepCondition::exerciseTimes() const {
@@ -43,18 +45,17 @@ namespace QuantLib {
     }
     
     void FdmBermudanStepCondition::applyTo(Array& a, Time t) const {
-        if (std::find(exerciseTimes_.begin(), exerciseTimes_.end(), t) 
-              != exerciseTimes_.end()) {
+        if (std::binary_search(exerciseTimes_.begin(), exerciseTimes_.end(), t)) {
             
             QL_REQUIRE(mesher_->layout()->size() == a.size(),
                        "inconsistent array dimensions");
 
-            const Size dims = mesher_->layout()->dim().size();
-            Array locations(dims);
+            //const Size dims = mesher_->layout()->dim().size();
+            //Array locations(dims);
 
             for (const auto& iter : *mesher_->layout()) {
-                for (Size i=0; i < dims; ++i)
-                    locations[i] = mesher_->location(iter, i);
+                //for (Size i=0; i < dims; ++i)
+                //    locations[i] = mesher_->location(iter, i);
 
                 const Real innerValue = calculator_->innerValue(iter, t);
                 if (innerValue > a[iter.index()]) {

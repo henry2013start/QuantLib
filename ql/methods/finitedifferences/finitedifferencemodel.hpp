@@ -92,6 +92,7 @@ namespace QuantLib {
             QL_REQUIRE(from >= to,
                        "trying to roll back from " << from << " to " << to);
 
+            // TODO: better combine stoppingTimes_ and the constant step grid (from, to, dt), especially for Bermudan option
             Time dt = (from-to)/steps, t = from;
             evolver_.setStep(dt);
 
@@ -99,6 +100,7 @@ namespace QuantLib {
                 if (condition)
                     condition->applyTo(a,from);
             }
+            Integer j = static_cast<Integer>(stoppingTimes_.size()) - 1;
             for (Size i=0; i<steps; ++i, t -= dt) {
                 Time now = t;
                 // make sure last step ends exactly on "to" in order to not
@@ -107,20 +109,25 @@ namespace QuantLib {
 
                 if (std::fabs(to-next) < std::sqrt(QL_EPSILON)) next = to;
                 bool hit = false;
-                for (Integer j = static_cast<Integer>(stoppingTimes_.size())-1; j >= 0 ; --j) {
-                    if (next <= stoppingTimes_[j] && stoppingTimes_[j] < now) {
-                        // a stopping time was hit
-                        hit = true;
+                
+                // stoppingTimes_ should be sorted
+                while (j >= 0 && stoppingTimes_[j] >= now)
+                    --j;
+                while (j >= 0 && next <= stoppingTimes_[j]) {
+                    // a stopping time was hit
+                    hit = true;
 
-                        // perform a small step to stoppingTimes_[j]...
-                        evolver_.setStep(now-stoppingTimes_[j]);
-                        evolver_.step(a,now);
-                        if (condition)
-                            condition->applyTo(a,stoppingTimes_[j]);
-                        // ...and continue the cycle
-                        now = stoppingTimes_[j];
-                    }
+                    // perform a small step to stoppingTimes_[j]...
+                    evolver_.setStep(now - stoppingTimes_[j]);
+                    evolver_.step(a, now);
+                    if (condition)
+                        condition->applyTo(a, stoppingTimes_[j]);
+                    // ...and continue the cycle
+                    now = stoppingTimes_[j];
+
+                    --j;
                 }
+
                 // if we did hit...
                 if (hit) {
                     // ...we might have to make a small step to
