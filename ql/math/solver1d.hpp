@@ -158,13 +158,19 @@ namespace QuantLib {
             \leq 0 \leq f(x_\mathrm{max}) \f$, or \f$
             f(x_\mathrm{max}) \leq 0 \leq f(x_\mathrm{min}) \f$ must
             be true).
+
+            if funcDirection is not 0, will try to relax xMin/xMax when root is not bracketed. 
+            funcDirection == 1 indicates the function is increasing
+            funcDirection == -1 indicates the function is decreasing
         */
         template <class F>
         Real solve(const F& f,
                    Real accuracy,
                    Real guess,
                    Real xMin,
-                   Real xMax) const {
+                   Real xMax, 
+                   Integer funcDirection = 0
+        ) const {
 
             QL_REQUIRE(accuracy>0.0,
                        "accuracy (" << accuracy << ") must be positive");
@@ -194,12 +200,51 @@ namespace QuantLib {
 
             evaluationNumber_ = 2;
 
-            QL_REQUIRE(fxMin_*fxMax_ < 0.0,
-                       "root not bracketed: f["
-                       << xMin_ << "," << xMax_ << "] -> ["
-                       << std::scientific
-                       << fxMin_ << "," << fxMax_ << "]");
+            if (fxMin_ * fxMax_ > 0.0)
+            {
+                std::string extra_message = "";
+                if (funcDirection == 1 || funcDirection == -1) {
+                    for (int i = 0; i < 2; ++i) {
+                        if (fxMin_ * funcDirection > 0) {
+                            // relax lower bound
+                            Real adj_ratio = 0.5;
+                            xMax_ = xMin_;
+                            xMin_ *= adj_ratio;
 
+                            fxMax_ = fxMin_;
+                            fxMin_ = f(xMin_);
+
+                            if (close(fxMin_, 0.0))
+                                return xMin_;
+
+                        } else {
+                            // relax upper bound
+                            Real adj_ratio = 1.5;
+                            xMin_ = xMax_;
+                            xMax_ *= adj_ratio;
+
+                            fxMin_ = fxMax_;
+                            fxMax_ = f(xMax_);
+                            if (close(fxMax_, 0.0))
+                                return xMax_;
+                        }
+
+                        evaluationNumber_ += 1;
+
+                        if (fxMin_ * fxMax_ < 0.0) {
+                            guess = (xMin_ + xMax_) * 0.5;
+                            break;
+                        }
+                    }
+
+                    if (fxMin_ * fxMax_ > 0.0)
+                        extra_message = " after relaxing bound. ";
+                }
+                QL_REQUIRE(fxMin_ * fxMax_ < 0.0, "root not bracketed: f["
+                            << xMin_ << "," << xMax_ << "] -> ["
+                            << std::scientific << fxMin_ << "," << fxMax_
+                            << "]" << extra_message);
+            }
             QL_REQUIRE(guess > xMin_,
                        "guess (" << guess << ") < xMin_ (" << xMin_ << ")");
             QL_REQUIRE(guess < xMax_,

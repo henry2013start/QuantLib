@@ -87,6 +87,28 @@ void test_bracketed(const S& solver, const std::string& name,
     }
 }
 
+template <class S, class F>
+void test_relax_bound(
+    const S& solver,
+    const std::string& name,
+    const F& f,
+    Real guess,
+    Real xMin,
+    Real xMax, 
+    Integer monotonicity
+) {
+    Real accuracy = 1.0e-6;
+    Real expected = 1.0;
+
+    Real root = solver.solve(f, accuracy, guess, xMin, xMax, monotonicity);
+    if (std::fabs(root - expected) > accuracy) {
+        BOOST_FAIL(name << " solver (not bracketed):\n"
+                        << "    expected:   " << expected << "\n"
+                        << "    calculated: " << root << "\n"
+                        << "    accuracy:   " << accuracy);
+    }
+}
+
 class Probe {
   public:
     Probe(Real& result, Real offset)
@@ -169,9 +191,23 @@ void test_solver(const S& solver, const std::string& name, Real accuracy) {
 }
 
 
+template <class S>
+void test_solver_relax_bound(const S& solver, const std::string& name) {
+    test_relax_bound(solver, name, F1(), 1.75, 1.5, 2.0, 1);
+    test_relax_bound(solver, name, F2(), 1.75, 1.5, 2.0, -1);
+    test_relax_bound(solver, name, F1(), 0.25, 0.0, 0.5, 1);
+    test_relax_bound(solver, name, F2(), 0.25, 0.0, 0.5, -1);
+}
+
+
 BOOST_AUTO_TEST_CASE(testBrent) {
     BOOST_TEST_MESSAGE("Testing Brent solver...");
     test_solver(Brent(), "Brent", 1.0e-6);
+}
+
+BOOST_AUTO_TEST_CASE(testBrentRelaxBound) {
+    BOOST_TEST_MESSAGE("Testing Brent solver relaxing bound...");
+    test_solver_relax_bound(Brent(), "Brent");
 }
 
 BOOST_AUTO_TEST_CASE(testBisection) {

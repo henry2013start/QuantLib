@@ -75,8 +75,11 @@ namespace QuantLib {
             Brent solver;
             solver.setMaxEvaluations(maxEvaluations);
             Volatility guess = (minVol+maxVol)/2.0;
-            Volatility result = solver.solve(f, accuracy, guess,
-                                             minVol, maxVol);
+            Volatility result = solver.solve(
+                f, accuracy, guess,
+                minVol, maxVol,
+                1 // price increases with vol
+            );
             return result;
         }
 
