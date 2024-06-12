@@ -204,7 +204,7 @@ namespace QuantLib {
             {
                 std::string extra_message = "";
                 if (funcDirection == 1 || funcDirection == -1) {
-                    for (int i = 0; i < 2; ++i) {
+                    for (int i = 0; i < 6; ++i) {
                         if (fxMin_ * funcDirection > 0) {
                             // relax lower bound
                             Real adj_ratio = 0.5;
