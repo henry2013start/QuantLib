@@ -43,6 +43,7 @@ namespace QuantLib {
             Business252 bus_calendar_;
             Real businessDayWeight_;
             Real holidayDayWeight_;
+            Time yearFractionInternal(const Date& d1, const Date& d2) const;
         public:
             std::string name() const override;
             Date::serial_type dayCount(const Date& d1, const Date& d2) const override;

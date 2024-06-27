@@ -34,16 +34,43 @@ namespace QuantLib {
         throw std::logic_error("dayCount not supported in VolTime day counter. ");
     }
 
-    Time VolTime::Impl::yearFraction(const Date& d1,
-        const Date& d2,
-        const Date&,
-        const Date&) const {
+    Time VolTime::Impl::yearFractionInternal(const Date& d1, const Date& d2) const {
+        // return year fraction from EOD d1 to EOD d2 where d1<=d2. 
+        // bus_calendar_.dayCount calc count from SOD d1 to SOD d2. 
+        // this is why we need to calc day count from d1+1 to d2+1
+        // 2199/12/31 is last day and it is a business day
 
-        Date::serial_type numBusinessDays = this->bus_calendar_.dayCount(d1, d2);
+        Date d1_next, d2_next;
+        Date::serial_type busDayAdj = 0;
+        if (d1.year() < 2199 || d1.month() < 12 || d1.dayOfMonth() < 31) {
+            d1_next = d1 + 1;
+        }
+        else {
+            d1_next = d1;
+            busDayAdj -= 1;
+        }
+
+        if (d2.year() < 2199 || d2.month() < 12 || d2.dayOfMonth() < 31) {
+            d2_next = d2 + 1;
+        } else {
+            d2_next = d2;
+            busDayAdj += 1;
+        }
+
+        Date::serial_type numBusinessDays = this->bus_calendar_.dayCount(d1_next, d2_next);
+        numBusinessDays += busDayAdj;
+
         Date::serial_type numHolidays = d2 - d1 - numBusinessDays;
 
         Real yearFraction = numBusinessDays * this->businessDayWeight_ + numHolidays * this->holidayDayWeight_;
         return yearFraction;
+    }
+
+    Time VolTime::Impl::yearFraction(const Date& d1, const Date& d2, const Date&, const Date&) const {
+        if (d1 <= d2)
+            return yearFractionInternal(d1, d2);
+        else
+            return -yearFractionInternal(d2, d1);
     }
 
 }
