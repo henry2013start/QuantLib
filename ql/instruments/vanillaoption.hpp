@@ -28,6 +28,7 @@
 #include <ql/instruments/oneassetoption.hpp>
 #include <ql/instruments/payoffs.hpp>
 #include <ql/instruments/dividendschedule.hpp>
+#include <ql/pricingengines/vanilla/fdblackscholesvanillaengine.hpp>
 
 namespace QuantLib {
 
@@ -82,6 +83,7 @@ namespace QuantLib {
             const DividendSchedule& dividends,
             Size tGrid,
             Size xGrid,
+            FdBlackScholesVanillaEngine::CashDividendModel cashDividendModel,
             Real accuracy = 1.0e-4,
             Size maxEvaluations = 100,
             Volatility minVol = 1.0e-7,

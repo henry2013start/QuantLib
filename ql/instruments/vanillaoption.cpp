@@ -54,7 +54,8 @@ namespace QuantLib {
         Size maxEvaluations,
         Volatility minVol,
         Volatility maxVol) const {
-        return impliedVolatility(targetValue, process, dividends, 100, 100, 
+        return impliedVolatility(targetValue, process, dividends, 100, 100,
+                                 FdBlackScholesVanillaEngine::CashDividendModel::Spot,
                                  accuracy, maxEvaluations, minVol, maxVol);
     }
 
@@ -64,6 +65,7 @@ namespace QuantLib {
             const DividendSchedule& dividends,
             Size tGrid,
             Size xGrid,
+            FdBlackScholesVanillaEngine::CashDividendModel cashDividendModel,
             Real accuracy,
             Size maxEvaluations,
             Volatility minVol,
@@ -88,9 +90,28 @@ namespace QuantLib {
           case Exercise::American:
           case Exercise::Bermudan:
             if (dividends.empty())
-                engine = std::make_unique<FdBlackScholesVanillaEngine>(newProcess, tGrid, xGrid);
+                engine = std::make_unique<FdBlackScholesVanillaEngine>(
+                    newProcess, 
+                    tGrid, 
+                    xGrid,
+                    0, //dampingSteps
+                    FdmSchemeDesc::Douglas(), 
+                    false, // localVol
+                    -Null<Real>(), // illegalLocalVolOverwrite
+                    cashDividendModel
+                );
             else
-                engine = std::make_unique<FdBlackScholesVanillaEngine>(newProcess, dividends, tGrid, xGrid);
+                engine = std::make_unique<FdBlackScholesVanillaEngine>(
+                    newProcess, 
+                    dividends, 
+                    tGrid, 
+                    xGrid,
+                    0, // dampingSteps
+                    FdmSchemeDesc::Douglas(),
+                    false, // localVol
+                    -Null<Real>(), // illegalLocalVolOverwrite
+                    cashDividendModel
+                );
             break;
           default:
             QL_FAIL("unknown exercise type");
