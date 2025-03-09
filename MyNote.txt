@@ -1,0 +1,25 @@
+instruction to build QuantLib python interface locally. 
+
+#1 install dependent packages (e.g. boost, swig). follow official quantlib setup instruction: https://www.quantlib.org/install/windows-python.shtml. 
+
+#2 get quant lib swig code (e.g. QuantLib-SWIG-1.33)
+This is probably done by downloading quantlib swig zip and unzip it. 
+
+#3 follow the steps below. This is done every time there's local quantlib update. 
+
+set INCLUDE=C:\Program Files\Boost\boost_1_84_0
+set LIB=C:\Program Files\Boost\boost_1_84_0\lib64-msvc-14.3
+set QL_DIR=D:\new\SideTradingProject\Quantlib\Git
+or 
+set QL_DIR=D:\new\SideTradingProject\Quantlib\QuantLib-1.33
+
+to update python swig interface:
+- build c++ release x64
+- update file under D:\new\SideTradingProject\Quantlib\QuantLib-SWIG-1.33\SWIG
+- run the following
+set PATH=%PATH%;C:\Program Files (x86)\swigwin-4.2.1;
+enter dir: D:\new\SideTradingProject\Quantlib\QuantLib-SWIG-1.33\Python\
+python setup.py wrap
+
+python setup.py build
+python setup.py install
