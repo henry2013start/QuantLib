@@ -1,0 +1,4 @@
+https://leanpub.com/quantlibpythoncookbook/read
+
+rates introduction video
+https://www.youtube.com/watch?v=4UOnaBb8W8U

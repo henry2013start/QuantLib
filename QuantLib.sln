@@ -46,7 +46,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GlobalOptimizer", "Examples
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{F1820A45-F18D-4C54-90E2-8C4368EAE185}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestQuantLibConsole", "..\TestQuantLibConsole\TestQuantLibConsole.vcxproj", "{C8833009-F65E-4EAB-A5AE-045409EBEFCD}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestQuantLibConsole", "MyTest\TestQuantLibConsole\TestQuantLibConsole.vcxproj", "{C8833009-F65E-4EAB-A5AE-045409EBEFCD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
